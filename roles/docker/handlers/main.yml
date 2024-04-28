@@ -1,0 +1,8 @@
+---
+# handlers file for docker
+- name: reload docker
+  service:
+    name: docker
+    state: reloaded
+    enabled: yes
+    daemon_reload: true
