@@ -1,7 +1,7 @@
 # Install docker with Ansible
 
 Docker is one of the most famous and practical tools. You need to install it on any server you connect to.
-With this playbook, you can install Docker in Ubuntu hosts and grant non-root access to yourself or other users.
+With this playbook, you can install Docker in Ubuntu hosts and grant non-root access to yourself.
 > Please note that this playbook actually reinstalls your Docker engine if it was already installed. It removes all unofficial packages, but it does not delete your images, containers, volumes, or networks.
 
 ## Instructions
@@ -15,28 +15,11 @@ git clone https://github.com/rastinsenobari/install-docker-ansible && cd install
 2. Run the Ansible playbook.
 
 ```bash
-ansible-playbook install-docker.yml -K
+ansible-playbook install-docker.yml --tags "clear,install,user_access"
 ```
-After executing the command, you need to enter a password to access "sudo" in order to apply changes to the system.
+Ensure your 'become' password is configured by employing one of the following methods: utilize the -K switch, define 'become_password' within the inventory file, or execute the playbook with root user privileges.
 
-## Options
- - By default, this playbook grants the running user non-root access to execute Docker commands. If you wish to ignore this default behavior, you should run it like this:
-```bash
-ansible-playbook install-docker.yml -K --extra-vars "running_user_access='false'" 
-```
-
- - If you want to grant non-root access to other users, you should add the users in the template and run the playbook like this:
-
-```bash
-ansible-playbook install-docker.yml -K --extra-vars "add_users_access='true'" 
-```
-
-```yaml
-users:
-  - user1
-  - user2
-```
-change users.yml like this template
+> You can clear the 'user_access' tags to prevent unauthorized access for running Docker by the running user.
 
 ## Verification
 Run the following command to check the installation:
